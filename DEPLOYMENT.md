@@ -24,6 +24,6 @@ Push reviewed website changes to the connected branch. Confirm the platform's au
 - Confirm custom 404 behavior and domain-root hosting at the canonical domain; internal site URLs are document-relative and work at the root.
 - Confirm domain/DNS ownership, `www` policy, HTTPS, and redirects.
 - Confirm production host behavior for the privacy notice.
-- Product content is **not launch-ready**: source snapshot, actual product evidence, releases, owner contact, and community/license verification are outstanding.
+- Product release readiness is **unverified**: source/help were reviewed, but owner confirmation of the README integration status, live build/runtime verification, release assets, privacy contact/hosting behavior, and direct community/license verification remain outstanding.
 
 No claim is made here about DigitalOcean requirements beyond the conditional operational steps above. Check current DigitalOcean documentation and the selected app's settings before deployment.

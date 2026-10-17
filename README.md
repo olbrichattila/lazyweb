@@ -1,39 +1,45 @@
 # Lazy Coding Agent website
 
-A framework-free static website for Lazy Coding Agent, built with HTML and CSS only. Product details are deliberately evidence-gated: the workspace did not include application source or product documentation, so no feature, release, platform, roadmap, or license claims are verified. See the evidence ledger and content plan before changing public product copy.
+A framework-free static website for Lazy Coding Agent, built with HTML and CSS only. Product copy now summarizes reviewed application README, help and source while distinguishing implementation evidence from release/runtime verification. The application README says multi-window layout is implemented and AI/model execution is in active integration; the currency of that status needs owner confirmation. No live application run, release assets, external GitHub state, or current DigitalOcean deployment was verified. See the evidence ledger and content plan before changing public copy.
 
 ## Structure
 
 - `index.html`, `features.html`, `agents.html`, `download.html`, `roadmap.html`, `community.html`, `privacy.html`, `404.html` — root pages
-- `docs/index.html` — documentation status landing page
-- `docs/PRODUCT_FEATURE_INVENTORY.md` — evidence ledger and verification criteria
-- `docs/WEBSITE_CONTENT_PLAN.md` — canonical content truth and page plan
+- `docs/index.html` — help topic index (help files are in the separate application repository, not copied here)
+- `docs/PRODUCT_FEATURE_INVENTORY.md` — source-evidence ledger, safe status distinctions and launch gates
+- `docs/WEBSITE_CONTENT_PLAN.md` — canonical publishable facts, per-page guidance and owner confirmations
 - `blog/index.html` — empty blog listing; no history fabricated
-- `assets/site.css`, `assets/owl-mark.png` — shared styling and derived copy of provided brand art
+- `assets/site.css`, `assets/owl-mark.png` — shared styling and local brand artwork
 - `robots.txt`, `sitemap.xml` — root-domain crawl metadata
 - `tools/check_site.py` — dependency-free basic metadata, landmark, local-link and CSS check
 - `DEPLOYMENT.md` — conditional DigitalOcean App Platform setup guidance
 
+## Evidence and public claims
+
+“Implemented in reviewed source/docs” is not equivalent to released, live-tested, user-tested, or available to download. Current website descriptions cover the documented workspace/editor, modes and tool boundaries, sessions and execution detail, model/image examples, terminal caveats, themes and project rules. Multi-agent collaboration, execution plans, workspace knowledge/RAG, The Brain and embedded SQLite/vector retrieval remain planned/future work, not current features.
+
+Do not claim overall product readiness until the owner confirms the README integration status and the product has been checked in a runnable build. Do not add download links, versions, checksums, legal/license statements, community features or hosting/privacy guarantees until verified. See `docs/PRODUCT_FEATURE_INVENTORY.md` for direct application-relative citations and `docs/WEBSITE_CONTENT_PLAN.md` for launch gates.
+
 ## Editing
 
-Edit each page's semantic HTML directly and keep the shared header/footer, skip link, page title, description, canonical, Open Graph metadata, active navigation and disclosure copy consistent. Use `assets/site.css` (from the root page) for shared styles. Internal page and asset links are document-relative so they work both under `file://` and when deployed at the domain root. Navigation is plain HTML with a native `<details>` menu for narrow layouts; no script or build process is needed.
-
-Keep product assertions tied to the inventory. Before changing `Unverified` to a product status, obtain an authorized source snapshot and record file-level evidence, UI wiring and tests where possible. Do not add download links, versions, platform support, roadmap dates, or community features until checked.
+Edit each page's semantic HTML directly and keep the shared header/footer, skip link, page title, description, canonical, Open Graph metadata, active navigation and disclosure copy consistent. Use `assets/site.css` for shared styles. Internal page and asset links are document-relative so they work under `file://` and when deployed at the domain root. Navigation uses native `<details>` on narrow layouts; no script or build process is needed.
 
 ## Documentation and blog
 
-Add documentation pages only when grounded in actual help/source and verified installation instructions. Link them from `docs/index.html`, maintain accessible headings and navigation, and add each public page to `sitemap.xml`.
-
-The blog currently has no articles. When approved content exists, create a static article page with an accurate title, date, tags, reading time and body; link it from `blog/index.html` and the sitemap. Never create fake past dates/posts. Label unapproved vision material as draft.
+The product help topics were reviewed in the separate application repository's `help/` directory. This website does not link to missing local help files or copy them wholesale. The owner must confirm a public source destination and publication rights before adding links or curated guides. Keep the blog empty until approved posts exist; never create fake past dates/posts.
 
 ## Downloads
 
-Update `download.html` only after checking the canonical repository/release page and actual release assets, checksums/signatures if supplied, installation documentation, and platform support. Include no guessed version, binary URL, checksum, date, or prerequisites. Update related evidence in the inventory and content plan simultaneously.
+`download.html` remains release-pending. Update it only after confirming the canonical release destination, inspecting actual release assets and any supplied checksums/signatures, verifying install requirements and testing a distributable package. Build instructions and CI configuration are developer evidence, not consumer release proof.
 
-## Local preview
+## Local preview and validation
 
-No production runtime or local server dependency is required. Open `index.html` directly in a browser to preview the pages and assets; document-relative links work from disk as well as from a domain-root deployment. `tools/check_site.py` also checks local links and referenced assets.
+No production runtime or local server dependency is required. Open `index.html` directly in a browser to preview pages/assets; document-relative links work from disk and domain root. Run the dependency-free integrity checker with:
+
+```sh
+python3 tools/check_site.py
+```
 
 ## Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md). Repository, branch, output/source directory, domain, HTTPS, and 404 routing need owner confirmation against the current DigitalOcean App Platform UI. The workspace is not currently a Git repository.
+See [DEPLOYMENT.md](DEPLOYMENT.md). Website repository, branch, source/output directory, domain, HTTPS, redirects and 404 routing need owner confirmation in the current DigitalOcean App Platform UI and actual configuration. No deployment has been verified.
