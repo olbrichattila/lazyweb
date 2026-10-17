@@ -18,7 +18,7 @@ A framework-free static website for Lazy Coding Agent, built with HTML and CSS o
 
 “Implemented in reviewed source/docs” is not equivalent to released, live-tested, user-tested, or available to download. Current website descriptions cover the documented workspace/editor, modes and tool boundaries, sessions and execution detail, model/image examples, terminal caveats, themes and project rules. Multi-agent collaboration, execution plans, workspace knowledge/RAG, The Brain and embedded SQLite/vector retrieval remain planned/future work, not current features.
 
-Do not claim overall product readiness until the owner confirms the README integration status and the product has been checked in a runnable build. Do not add download links, versions, checksums, legal/license statements, community features or hosting/privacy guarantees until verified. See `docs/PRODUCT_FEATURE_INVENTORY.md` for direct application-relative citations and `docs/WEBSITE_CONTENT_PLAN.md` for launch gates.
+Do not claim overall product readiness until the owner confirms the README integration status and the product has been checked in a runnable build. The site links to the owner-provided GitHub Releases page, but its contents and any published assets or package availability have not been verified. Do not add version numbers, asset names, checksums, installation instructions, legal/license statements, community features or hosting/privacy guarantees until verified. See `docs/PRODUCT_FEATURE_INVENTORY.md` for direct application-relative citations and `docs/WEBSITE_CONTENT_PLAN.md` for launch gates.
 
 ## Editing
 
@@ -30,7 +30,7 @@ The product help topics were reviewed in the separate application repository's `
 
 ## Downloads
 
-`download.html` remains release-pending. Update it only after confirming the canonical release destination, inspecting actual release assets and any supplied checksums/signatures, verifying install requirements and testing a distributable package. Build instructions and CI configuration are developer evidence, not consumer release proof.
+`download.html` remains release-pending and links to the owner-provided GitHub Releases page (`https://github.com/olbrichattila/lazycodingagent/releases`). The link does not verify that the page is available or that it contains a release. Update release claims only after inspecting actual assets and any supplied checksums/signatures, verifying install requirements and testing a distributable package. Build instructions and CI configuration are developer evidence, not consumer release proof.
 
 ## Local preview and validation
 
