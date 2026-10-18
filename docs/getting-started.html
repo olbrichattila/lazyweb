@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting started — Lazy Coding Agent documentation</title>
+  <meta name="description" content="Open a workspace, configure LLM settings, HTTPS on Linux, and send your first Ask, Plan, or Agent chat in Lazy Coding Agent.">
+  <link rel="canonical" href="https://lazycodingagent.com/docs/getting-started.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Getting started — Lazy Coding Agent documentation">
+  <meta property="og:description" content="First steps: workspace, settings, provider setup, and your first chat session.">
+  <meta property="og:url" content="https://lazycodingagent.com/docs/getting-started.html">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="Lazy Coding Agent home"><img src="../assets/owl-mark.png" alt=""><span>Lazy Coding <span>Agent</span></span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav></details>
+<a class="button header-download" href="https://github.com/olbrichattila/lazycodingagent/releases" target="_blank" rel="noopener noreferrer">Download</a></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap"><p class="doc-breadcrumb"><a href="index.html">Documentation</a> → Getting started</p><h1>Getting started</h1><p class="lead">Lazy Coding Agent is a desktop AI coding workspace. You open a project folder as a workspace, chat with an LLM in multiple sessions, and (in Agent mode) let the assistant read and change files under that folder using tools.</p></div></section>
+<section class="section"><div class="wrap"><div class="content">
+<p>On launch, a branded splash image appears while the workspace starts (about one second after loading finishes). Window chrome follows your saved theme (dark by default, or light if you chose <strong>View → Toggle Light / Dark Theme</strong> last time).</p>
+<h2>Open or create a workspace</h2>
+<ol>
+<li>Use <strong>File → Open Project Folder</strong> to point at an existing code tree, or create a workspace from the home flow when offered.</li>
+<li>The status bar and chat hero show the active workspace name.</li>
+<li>Panel layout, theme, and dock state are saved per workspace in application settings.</li>
+</ol>
+<h2>Settings you need first</h2>
+<p>Open <strong>Settings</strong> from the menu (or when prompted):</p>
+<ul>
+<li><strong>LLM provider</strong> — API key, base URL if needed, and default model.</li>
+<li><strong>Fetch Models</strong> — loads model IDs from your provider (requires working HTTPS).</li>
+<li><strong>Agent Behavior</strong> — optional <strong>Debugging mode</strong> to show full tool JSON in chat.</li>
+</ul>
+<p>Save settings before starting a long agent run.</p>
+<h2>Building from source (developers)</h2>
+<p>Install a release from <a href="../download.html">Download</a> or build from the <a href="https://github.com/olbrichattila/lazycodingagent" target="_blank" rel="noopener noreferrer">application repository</a>. The README documents Lazarus package install, <code>lazbuild</code>, and post-build steps that copy <code>help/</code> and assets next to the executable so <strong>Help → User Guide</strong> works outside the IDE.</p>
+<h2>HTTPS and OpenSSL (Linux / Raspberry Pi)</h2>
+<p>Chat, <strong>Fetch Models</strong>, and the agent need <strong>HTTPS</strong>. On Linux the app uses the system <strong>OpenSSL 3</strong> libraries.</p>
+<ul>
+<li><strong>arm64 <code>.deb</code> (Raspberry Pi OS, Debian, Ubuntu):</strong> Installing the release package should pull in <code>libssl3</code> automatically. If HTTPS still fails after an upgrade, run <code>sudo apt install libssl3</code> (on some distros the package is named <code>libssl3t64</code>).</li>
+<li><strong>Built from source on the Pi:</strong> Install the runtime before using AI features: <code>sudo apt install libssl3</code>. You do not need the <code>-dev</code> package to run the app.</li>
+</ul>
+<p>Settings and chat show a clear error instead of crashing when OpenSSL is missing.</p>
+<h2>Your first chat</h2>
+<ol>
+<li>In the left rail, open <strong>Agents</strong> and choose <strong>+ New Chat Session</strong> (or use <strong>+</strong> on the chat session tab strip).</li>
+<li>Pick a <strong>mode</strong> in the composer footer (Ask, Plan, or Agent).</li>
+<li>Choose a <strong>model</strong> from the combo beside it.</li>
+<li>Type a prompt and send.</li>
+</ol>
+<p>Use <strong>Ask</strong> for questions without file writes. Use <strong>Agent</strong> when you want the assistant to edit the project.</p>
+<h2>Where to learn more</h2>
+<ul>
+<li><a href="workspace-layout.html">Workspace layout and panels</a> — navigation, center tabs, utility panel, terminal.</li>
+<li><a href="chat-and-modes.html">Chat, sessions, and modes</a> — parallel sessions, archive, mode differences.</li>
+<li><a href="how-the-agent-works.html">How the agent works</a> — what happens after you press Send.</li>
+</ul>
+<nav class="doc-pager" aria-label="Documentation pages"><span></span><a class="next" href="workspace-layout.html"><span class="label">Next</span>Workspace layout and panels →</a></nav>
+</div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap footer-inner"><span>Lazy Coding Agent · Documentation from reviewed application help.</span><nav class="footer-links" aria-label="Footer"><a href="../privacy.html">Privacy</a><a href="../community.html">Community</a><a href="../blog/index.html">Blog</a><a href="index.html">Documentation</a></nav></div></footer>
+</body>
+</html>

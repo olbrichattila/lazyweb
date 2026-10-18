@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project rules — Lazy Coding Agent documentation</title>
+  <meta name="description" content="Use .rules/*.md Markdown files in your workspace to inject project-specific guidance into Ask, Plan, and Agent system prompts.">
+  <link rel="canonical" href="https://lazycodingagent.com/docs/project-rules.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Project rules — Lazy Coding Agent documentation">
+  <meta property="og:description" content="Workspace rules under .rules/ and the Project Rules editor in the app menu.">
+  <meta property="og:url" content="https://lazycodingagent.com/docs/project-rules.html">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="Lazy Coding Agent home"><img src="../assets/owl-mark.png" alt=""><span>Lazy Coding <span>Agent</span></span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav></details>
+<a class="button header-download" href="https://github.com/olbrichattila/lazycodingagent/releases" target="_blank" rel="noopener noreferrer">Download</a></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap"><p class="doc-breadcrumb"><a href="index.html">Documentation</a> → Project rules</p><h1>Project rules</h1><p class="lead"><strong>Project rules</strong> are Markdown files that tailor the agent to your repo.</p></div></section>
+<section class="section"><div class="wrap"><div class="content">
+<h2>Location</h2>
+<p>Rules live under:</p>
+<pre><code>&lt;workspace&gt;/.rules/*.md</code></pre>
+<p>Each file is plain Markdown. The app loads <strong>all</strong> <code>.md</code> files in that folder and combines them into the <strong>system prompt</strong> for Ask, Plan, and Agent runs.</p>
+<h2>Editing rules</h2>
+<p>Open <strong>Workspace → Project Rules…</strong> from the main menu.</p>
+<ul>
+<li><strong>Add</strong> creates a new rule file.</li>
+<li><strong>Edit</strong> opens the selected file in the rule editor.</li>
+<li><strong>Delete</strong> removes a rule file from disk.</li>
+</ul>
+<p>Use rules for coding standards, architecture notes, test commands, or “always do X in this repo” instructions.</p>
+<h2>Good practices</h2>
+<ul>
+<li>Keep each file focused (e.g. <code>testing.md</code>, <code>api-style.md</code>).</li>
+<li>Put the most important constraints near the top of a file.</li>
+<li>Rules apply to <strong>every</strong> mode; use clear language so Plan mode does not assume write access it does not have.</li>
+</ul>
+<p>Rules do <strong>not</strong> replace the built-in safety limits (write sandbox outside the workspace unless the user opts in per session, mode-gated tools). They add <strong>project-specific</strong> guidance on top.</p>
+<nav class="doc-pager" aria-label="Documentation pages"><a class="prev" href="chat-and-modes.html"><span class="label">Previous</span>← Chat, sessions, and modes</a><a class="next" href="how-the-agent-works.html"><span class="label">Next</span>How the agent works →</a></nav>
+</div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap footer-inner"><span>Lazy Coding Agent · Documentation from reviewed application help.</span><nav class="footer-links" aria-label="Footer"><a href="../privacy.html">Privacy</a><a href="../community.html">Community</a><a href="../blog/index.html">Blog</a><a href="index.html">Documentation</a></nav></div></footer>
+</body>
+</html>

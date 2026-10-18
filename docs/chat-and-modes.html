@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat, sessions, and modes — Lazy Coding Agent documentation</title>
+  <meta name="description" content="Multiple chat sessions, Ask Plan and Agent modes, outside-workspace writes, image attachments, debugging, Learn mode, step limits, and context summarization.">
+  <link rel="canonical" href="https://lazycodingagent.com/docs/chat-and-modes.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Chat, sessions, and modes — Lazy Coding Agent documentation">
+  <meta property="og:description" content="Session management, composer modes, vision attachments, and agent behavior settings.">
+  <meta property="og:url" content="https://lazycodingagent.com/docs/chat-and-modes.html">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="Lazy Coding Agent home"><img src="../assets/owl-mark.png" alt=""><span>Lazy Coding <span>Agent</span></span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav></details>
+<a class="button header-download" href="https://github.com/olbrichattila/lazycodingagent/releases" target="_blank" rel="noopener noreferrer">Download</a></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap"><p class="doc-breadcrumb"><a href="index.html">Documentation</a> → Chat, sessions, and modes</p><h1>Chat, sessions, and modes</h1></div></section>
+<section class="section"><div class="wrap"><div class="content">
+<h2 id="chat">Multiple sessions</h2>
+<p>Each workspace can run <strong>several chat sessions</strong> in parallel:</p>
+<ul>
+<li>Every session has its own conversation and <strong>agent engine</strong>.</li>
+<li>Switching sessions or workspaces does <strong>not</strong> stop a run in another session; it continues in the background.</li>
+<li>Switch sessions from the <strong>tab strip inside the Chat page</strong> or from <strong>Sessions</strong> in the nav rail; the active session name also appears in the <strong>Session:</strong> label on the Chat page.</li>
+</ul>
+<p>Create sessions from <strong>Sessions</strong> (<strong>+ New Chat Session</strong>) or click <strong>+</strong> on the <strong>session tab strip</strong> at the top of the Chat page. <strong>✕</strong> on a session tab archives that chat (restore from <strong>Sessions</strong>). Archive, restore, or permanently delete from the <strong>Sessions</strong> nav view.</p>
+<h2 id="modes">Composer modes</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Mode</th><th scope="col">Purpose</th></tr></thead>
+<tbody>
+<tr><td><strong>Ask</strong></td><td>Q&amp;A and exploration. Read-only tools (files, search, git inspect). No writes or shell.</td></tr>
+<tr><td><strong>Plan</strong></td><td>Design and specs. Can save plan markdown under <code>.plan/</code>. No arbitrary file writes or shell.</td></tr>
+<tr><td><strong>Agent</strong></td><td>Full coding autopilot: patches, writes, shell, builds. Default for implementation work.</td></tr>
+</tbody>
+</table></div>
+<p>The mode applies to the <strong>next run</strong> and is sent with the system prompt so the model knows which tools exist.</p>
+<p>Pick <strong>Ask</strong>, <strong>Plan</strong>, or <strong>Agent</strong> from the <strong>mode</strong> combo at the left of the composer footer.</p>
+<h2>Writes outside the working directory</h2>
+<p>Each chat session has its own <strong>Allow modify outside the working directory</strong> checkbox in the composer footer (default off). When off, Agent mode can still <strong>read</strong> files anywhere, but write tools and shell working directories must stay inside the open workspace folder. When on, that session may modify files and run shell commands with cwd outside the workspace—use only when you intend it.</p>
+<p>Starting <strong>Build</strong> on the <strong>Plan</strong> utility tab opens a confirmation dialog with the same option before a new Agent session is created to implement the plan.</p>
+<h2>Image attachments (vision)</h2>
+<p>You can attach <strong>screenshots and mockups</strong> so a <strong>vision-capable model</strong> can see them (configure one in Settings).</p>
+<ul>
+<li>Click <strong>Attach image</strong> in the composer footer, or <strong>Ctrl+V</strong> in the prompt box when the clipboard holds a picture.</li>
+<li>Supported types: <strong>PNG, JPEG, WebP, GIF</strong>. Up to <strong>4</strong> images per message, <strong>5 MiB</strong> each (large images may be downscaled to 2048 px on the longest edge).</li>
+<li>Files are copied into <code>.lca/attachments/</code> under the workspace; session history stores paths only, not embedded binary.</li>
+<li>Text-only models ignore image bytes poorly or return errors—pick a model that supports vision for image-heavy prompts.</li>
+</ul>
+<h2>Model selection</h2>
+<p>The <strong>model</strong> combo lists models you configured in Settings. The choice is kept with the workspace and shown on the status bar when relevant.</p>
+<h2>Debugging mode vs live trace</h2>
+<p>In <strong>Settings → Agent Behavior</strong>, enable <strong>Debugging mode</strong> to show <strong>full tool results</strong> in the chat transcript. When disabled, successful tool JSON stays out of chat; <strong>errors</strong> still appear.</p>
+<p>With debugging off, you still get a readable run in chat:</p>
+<ul>
+<li><strong>Activity</strong> lines such as <code>Calling read_file</code> when each tool starts (not part of saved conversation history).</li>
+<li><strong>Tools &amp; Logs</strong> in the nav rail plus <strong>Execution Detail</strong> in the utility panel for full prompts, tool arguments, and outputs.</li>
+</ul>
+<p>Open <strong>Tools &amp; Logs</strong> and <strong>Execution Detail</strong> yourself anytime to inspect a run. Click an older log row to <strong>pin</strong> the inspector on that step; click the <strong>latest</strong> row to follow the live trace again.</p>
+<h2>Learn mode</h2>
+<p>In <strong>Settings → Agent Behavior</strong>, enable <strong>Learn mode</strong> when you want a guided tour of each agent run (off by default for everyday coding).</p>
+<p>When <strong>Learn mode</strong> is on, sending a prompt switches the nav rail to <strong>Tools &amp; Logs</strong>, opens the utility panel on <strong>Execution Detail</strong>, and <strong>follows</strong> new log steps until you select an older row.</p>
+<p><strong>Learn mode</strong> controls where the UI goes during a run. <strong>Debugging mode</strong> controls whether full tool JSON appears in chat—they are independent.</p>
+<h2>Step limit</h2>
+<p><strong>Max steps</strong> in Settings caps how many LLM round-trips one send can take (default 20). The status bar shows the current step during a run. If the cap is hit while the model still requested tools, the assistant adds a brief step-limit message instead of ending silently.</p>
+<h2>Max output tokens and truncation</h2>
+<p><strong>Max Output Tokens</strong> in <strong>Settings → Agent Behavior</strong> limits how much the model can generate in one completion (default <strong>16384</strong> for new installs). Values below about <strong>2048</strong> often truncate tool arguments and break the loop.</p>
+<p>When a completion is cut off (<code>finish_reason</code> length), the agent <strong>retries once or twice</strong> with a temporarily higher output budget (up to 16384) before accepting the result.</p>
+<h2>Context summarization</h2>
+<p>Enable <strong>Auto-summarize when nearing context limit</strong> (on by default) to compress <strong>older</strong> chat turns into a summary message while keeping recent turns verbatim. Optional fields: <strong>Context window (tokens)</strong> and <strong>Summarize threshold</strong> (default 0.85 of usable budget).</p>
+<p>When summarization runs, chat shows a brief assistant note: <em>Context summarized to continue the conversation.</em></p>
+<h2>Cancel and exit</h2>
+<p>Use <strong>Stop</strong> / cancel in the chat UI to abort an active run. Quitting the app with runs in progress should prompt to stop them cleanly.</p>
+<nav class="doc-pager" aria-label="Documentation pages"><a class="prev" href="workspace-layout.html"><span class="label">Previous</span>← Workspace layout and panels</a><a class="next" href="project-rules.html"><span class="label">Next</span>Project rules →</a></nav>
+</div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap footer-inner"><span>Lazy Coding Agent · Documentation from reviewed application help.</span><nav class="footer-links" aria-label="Footer"><a href="../privacy.html">Privacy</a><a href="../community.html">Community</a><a href="../blog/index.html">Blog</a><a href="index.html">Documentation</a></nav></div></footer>
+</body>
+</html>

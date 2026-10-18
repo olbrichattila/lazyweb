@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How the agent works — Lazy Coding Agent documentation</title>
+  <meta name="description" content="ReAct agent loop, per-session engine, system prompt contents, UI execution log, and application-level path policy in Lazy Coding Agent.">
+  <link rel="canonical" href="https://lazycodingagent.com/docs/how-the-agent-works.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="How the agent works — Lazy Coding Agent documentation">
+  <meta property="og:description" content="Educational overview of the model and tool loop, modes, and recorded execution detail.">
+  <meta property="og:url" content="https://lazycodingagent.com/docs/how-the-agent-works.html">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="Lazy Coding Agent home"><img src="../assets/owl-mark.png" alt=""><span>Lazy Coding <span>Agent</span></span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav></details>
+<a class="button header-download" href="https://github.com/olbrichattila/lazycodingagent/releases" target="_blank" rel="noopener noreferrer">Download</a></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap"><p class="doc-breadcrumb"><a href="index.html">Documentation</a> → How the agent works</p><h1>How the agent works</h1><p class="lead">This section explains how Lazy Coding Agent ties together the LLM, tools, and UI. Implementation lives mainly in <code>uAgentEngine</code>, <code>uAgentTools</code>, and <code>uChatSessionHub</code>.</p></div></section>
+<section class="section"><div class="wrap"><div class="content">
+<h2>What runs when you send a message</h2>
+<ol>
+<li>Your prompt is attached to the <strong>current chat session</strong>.</li>
+<li>That session owns one <strong>agent engine</strong> instance (conversation history + tool registry).</li>
+<li>A <strong>background thread</strong> runs the agent loop so the UI stays responsive.</li>
+<li>The UI receives events for new messages, tool calls, and state (thinking, executing tools, finished, error).</li>
+</ol>
+<p>You can start runs in multiple sessions; each engine is independent.</p>
+<h2>The ReAct loop (reason + act)</h2>
+<p>After you send a message, the engine roughly does:</p>
+<ol>
+<li>Build or refresh the <strong>system prompt</strong> (mode, workspace path, tool list, project rules).</li>
+<li>Append your message to the conversation (including <strong>image attachments</strong> as metadata under <code>.lca/attachments/</code> when you attach screenshots in chat).</li>
+<li>Optionally <strong>compact history</strong> when auto-summarize is enabled and the prompt is near the configured context window.</li>
+<li>Call the <strong>LLM</strong> with the message list and tool definitions. User turns with images are sent as <strong>multimodal</strong> content to OpenAI-compatible APIs; <strong>tools remain text/JSON only</strong>. If output is truncated by <strong>Max Output Tokens</strong>, the engine may retry with a higher temporary limit before continuing.</li>
+<li>If the model returns <strong>tool calls</strong>, run each tool locally and append <strong>tool result</strong> messages (including JSON with an <code>error</code> field when a tool fails).</li>
+<li>Repeat until the model answers <strong>without</strong> tool calls, you <strong>cancel</strong>, or a <strong>step limit</strong> is reached (default 20 steps).</li>
+</ol>
+<p>Unexpected tool exceptions are caught at the tool boundary, converted to the same error JSON shape, and returned to the model so the loop can continue.</p>
+<p>This pattern is often called <strong>ReAct</strong>: the model reasons in natural language, then acts via tools, then reasons again on the results.</p>
+<pre><code>You → system + history → (optional summarize) → LLM → (optional tools) → LLM → … → final reply</code></pre>
+<h2>What goes into the system prompt</h2>
+<ul>
+<li><strong>Workspace mode</strong> (Ask / Plan / Agent) — controls which tools are advertised.</li>
+<li><strong>Workspace root</strong> — all file paths are resolved relative to this folder.</li>
+<li><strong>Tool guidance</strong> — short descriptions and JSON parameter shapes for allowed tools.</li>
+<li><strong>Project rules</strong> — combined text from <code>&lt;workspace&gt;/.rules/*.md</code> (see <a href="project-rules.html">Project rules</a>).</li>
+</ul>
+<p>The model only sees tools that are <strong>allowed in the current mode</strong>.</p>
+<h2>Modes vs file changes</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Mode</th><th scope="col">Typical use</th><th scope="col">Mutations</th></tr></thead>
+<tbody>
+<tr><td>Ask</td><td>Explain code, search, read</td><td>No writes, patch, or shell</td></tr>
+<tr><td>Plan</td><td>Specs and checklists</td><td>Can write <code>.plan/plan-*.md</code> only</td></tr>
+<tr><td>Agent</td><td>Implement and fix</td><td>Writes, patches, shell, builds</td></tr>
+</tbody>
+</table></div>
+<p>Plan and Ask still use read/search/git tools to understand the tree.</p>
+<h2>What you see in the UI</h2>
+<ul>
+<li><strong>Assistant messages</strong> — model text and (in debugging mode) full tool JSON in chat.</li>
+<li><strong>Activity lines</strong> — short <strong>Calling …</strong> lines when the model invokes a tool (display only; not sent back to the model).</li>
+<li><strong>State</strong> — idle, thinking, executing tool, finished, or error; status bar shows <strong>step N/M</strong> during a run.</li>
+<li><strong>Execution log</strong> (<strong>Tools &amp; Logs</strong>) — per-step trace. Click a row for <strong>Execution Detail</strong>.</li>
+<li><strong>Step limit</strong> — configure <strong>Max steps</strong> in Settings.</li>
+<li><strong>Tool Errors</strong> — failed tools for the session, plus shared <code>tool-errors.log</code> under your user config folder.</li>
+</ul>
+<p>With <strong>Learn mode</strong> enabled, sending a prompt switches to <strong>Tools &amp; Logs</strong> and follows steps in <strong>Execution Detail</strong>. The trace is application-recorded activity—not hidden chain-of-thought and not a guaranteed replay export.</p>
+<h2>Safety and sandboxing</h2>
+<ul>
+<li><strong>Reads:</strong> inspection tools may use paths <strong>outside</strong> the workspace when you pass an absolute path or a relative path that leaves the project folder.</li>
+<li><strong>Writes:</strong> by default, write tools, plan saves under <code>.plan/</code>, chat image attachments, and shell <strong>cwd</strong> values must stay inside the <strong>workspace root</strong>. Enable <strong>Allow modify outside the working directory</strong> on the chat composer (per session) to permit writes and shell cwd outside the project for that chat only.</li>
+<li>The <strong>git</strong> tool is <strong>read-only</strong> (status, diff, log, show).</li>
+<li><strong>Shell</strong> runs with a timeout cap; use Agent mode only when you trust the workspace and model.</li>
+</ul>
+<p>This is <strong>application-level</strong> path policy, not an operating-system sandbox.</p>
+<h2>Learn more</h2>
+<p>See <a href="tools-reference.html">Agent tools reference</a> for each tool name, what it does, and which modes allow it. For a shorter site summary, see <a href="../agents.html">How the agent works on the website</a>.</p>
+<nav class="doc-pager" aria-label="Documentation pages"><a class="prev" href="project-rules.html"><span class="label">Previous</span>← Project rules</a><a class="next" href="tools-reference.html"><span class="label">Next</span>Agent tools reference →</a></nav>
+</div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap footer-inner"><span>Lazy Coding Agent · Documentation from reviewed application help.</span><nav class="footer-links" aria-label="Footer"><a href="../privacy.html">Privacy</a><a href="../community.html">Community</a><a href="../blog/index.html">Blog</a><a href="index.html">Documentation</a></nav></div></footer>
+</body>
+</html>

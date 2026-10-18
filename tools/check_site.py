@@ -7,7 +7,14 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index.html", "features.html", "agents.html", "download.html",
     "roadmap.html", "community.html", "privacy.html", "404.html",
-    "docs/index.html", "blog/index.html",
+    "docs/index.html",
+    "docs/getting-started.html",
+    "docs/workspace-layout.html",
+    "docs/chat-and-modes.html",
+    "docs/project-rules.html",
+    "docs/how-the-agent-works.html",
+    "docs/tools-reference.html",
+    "blog/index.html",
 ]
 
 

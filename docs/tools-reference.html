@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent tools reference — Lazy Coding Agent documentation</title>
+  <meta name="description" content="Reference for Lazy Coding Agent LLM tools: read_file, write_file, apply_patch, shell, git, diagnostics, todo, create_plan_file, and mode availability.">
+  <link rel="canonical" href="https://lazycodingagent.com/docs/tools-reference.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Agent tools reference — Lazy Coding Agent documentation">
+  <meta property="og:description" content="Tool names, JSON arguments, path rules, and Ask/Plan/Agent mode matrix.">
+  <meta property="og:url" content="https://lazycodingagent.com/docs/tools-reference.html">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="Lazy Coding Agent home"><img src="../assets/owl-mark.png" alt=""><span>Lazy Coding <span>Agent</span></span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav></details>
+<a class="button header-download" href="https://github.com/olbrichattila/lazycodingagent/releases" target="_blank" rel="noopener noreferrer">Download</a></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap"><p class="doc-breadcrumb"><a href="index.html">Documentation</a> → Agent tools reference</p><h1>Agent tools reference</h1><p class="lead">Tools are functions the LLM can call with <strong>JSON arguments</strong>. Results are returned as JSON strings (errors include an <code>error</code> field). Only <strong>advertised</strong> tools are sent to the model for a given mode.</p></div></section>
+<section class="section"><div class="wrap"><div class="content">
+<p>Aliases: <code>search_code</code> also answers to <code>grep</code>; <code>shell</code> to <code>terminal</code> / <code>run_process</code>; <code>todo</code> to <code>plan</code>.</p>
+<h2>Mode summary</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Capability</th><th scope="col">Ask</th><th scope="col">Plan</th><th scope="col">Agent</th></tr></thead>
+<tbody>
+<tr><td>Read/search/list/glob/git/diagnostics read</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>todo (session task list)</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>create_plan_file</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>write_file, apply_patch, edit_file, shell</td><td>No</td><td>No</td><td>Yes</td></tr>
+</tbody>
+</table></div>
+<h2>Path rules</h2>
+<ul>
+<li><strong>Read/search tools</strong> may target paths outside the workspace (absolute paths or <code>..</code> segments are allowed after canonicalization).</li>
+<li><strong>Write tools and shell <code>cwd</code></strong> default to the workspace root only. Per chat session, enable <strong>Allow modify outside the working directory</strong> to lift that write sandbox.</li>
+<li><strong>create_plan_file</strong> and chat image attachments always stay under the workspace (<code>.plan/</code> and <code>.lca/attachments/</code>).</li>
+</ul>
+<h2>Tools</h2>
+<h3>read_file</h3>
+<p>Read text from a file with optional line offset and limit (large file and line caps apply). <strong>Modes:</strong> Ask, Plan, Agent.</p>
+<h3>write_file</h3>
+<p>Write or overwrite a file; creates parent directories as needed. <strong>Modes:</strong> Agent only.</p>
+<h3>list_directory</h3>
+<p>List immediate children of a directory (sorted, capped entry count). <strong>Modes:</strong> Ask, Plan, Agent.</p>
+<h3>glob</h3>
+<p>Find paths matching a wildcard pattern. On Windows and macOS, matching is case-insensitive; on Linux it is case-sensitive. <strong>Modes:</strong> Ask, Plan, Agent.</p>
+<h3>search_code</h3>
+<p>Search file contents (literal or regex, optional path glob). Skips files larger than 16 MiB and extremely long lines. Alias: <code>grep</code>. <strong>Modes:</strong> Ask, Plan, Agent.</p>
+<h3>apply_patch</h3>
+<p>Apply a <strong>unified diff</strong> after validation (create, modify, delete files). On success, the JSON may include a <code>warnings</code> array when the tool corrected minor format issues. <strong>Modes:</strong> Agent only.</p>
+<h4>Patch format pitfalls</h4>
+<ul>
+<li>One-line change: <code>@@ -N,1 +N,1 @@</code> then exactly one <code>-</code> line and one <code>+</code> line.</li>
+<li>The number after the comma in <code>@@ -start,count</code> is how many old-side hunk lines follow, not “lines start through end.”</li>
+<li>Failures return <code>error_kind</code> such as <code>context_mismatch</code>, <code>invalid_hunk</code>, <code>incomplete_hunk</code>, or <code>hunk_count_mismatch</code>; many errors include a <code>hint</code> field.</li>
+</ul>
+<h3>edit_file</h3>
+<p>Replace <strong>exactly one</strong> occurrence of <code>old_text</code> with <code>new_text</code> in a file (strict byte match). <strong>Modes:</strong> Agent only.</p>
+<h3>shell</h3>
+<p>Run a shell command in the project directory with timeout limits (Unix: <code>/bin/sh -c</code>; Windows: <code>cmd.exe /C</code>). <strong>Modes:</strong> Agent only.</p>
+<h3>diagnostics</h3>
+<p>Read cached compiler/linter output; in Agent mode can run a build/check and refresh the cache. Auto-detected builds run with cwd set to the directory that contains the manifest. <strong>Modes:</strong> Ask, Plan, Agent (build side effects in Agent).</p>
+<h3>git</h3>
+<p>Inspect repository: status, diff, log, or show. <strong>No commits or pushes.</strong> <strong>Modes:</strong> Ask, Plan, Agent.</p>
+<h3>todo</h3>
+<p>Read or replace a <strong>session-local</strong> task list (pending / in_progress / completed). Alias: <code>plan</code>. <strong>Modes:</strong> Ask, Plan, Agent.</p>
+<h3>create_plan_file</h3>
+<p>Save plan markdown under <code>&lt;workspace&gt;/.plan/plan-*.md</code>. <strong>Modes:</strong> Plan, Agent.</p>
+<h2>Educational note</h2>
+<p>When you add or change tools in the application source, update this page and <a href="how-the-agent-works.html">How the agent works</a> so documentation stays aligned with behavior.</p>
+<nav class="doc-pager" aria-label="Documentation pages"><a class="prev" href="how-the-agent-works.html"><span class="label">Previous</span>← How the agent works</a><span></span></nav>
+</div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap footer-inner"><span>Lazy Coding Agent · Documentation from reviewed application help.</span><nav class="footer-links" aria-label="Footer"><a href="../privacy.html">Privacy</a><a href="../community.html">Community</a><a href="../blog/index.html">Blog</a><a href="index.html">Documentation</a></nav></div></footer>
+</body>
+</html>

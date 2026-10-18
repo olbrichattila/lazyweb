@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workspace layout and panels — Lazy Coding Agent documentation</title>
+  <meta name="description" content="Navigation rail, chat and editor center area, utility panels, terminal, themes, detach, and tool error logging in Lazy Coding Agent.">
+  <link rel="canonical" href="https://lazycodingagent.com/docs/workspace-layout.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Workspace layout and panels — Lazy Coding Agent documentation">
+  <meta property="og:description" content="IDE-style desktop layout: projects, agents, tools and logs, editor, and integrated terminal.">
+  <meta property="og:url" content="https://lazycodingagent.com/docs/workspace-layout.html">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="Lazy Coding Agent home"><img src="../assets/owl-mark.png" alt=""><span>Lazy Coding <span>Agent</span></span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav>
+<details class="mobile-nav"><summary>Menu</summary><nav aria-label="Mobile navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../features.html">Features</a></li><li><a href="../agents.html">Agents</a></li><li><a href="../download.html">Download</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a aria-current="page" href="index.html">Docs</a></li><li><a href="../community.html">Community</a></li></ul></nav></details>
+<a class="button header-download" href="https://github.com/olbrichattila/lazycodingagent/releases" target="_blank" rel="noopener noreferrer">Download</a></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap"><p class="doc-breadcrumb"><a href="index.html">Documentation</a> → Workspace layout and panels</p><h1>Workspace layout and panels</h1><p class="lead">The main window is an IDE-style layout: navigation on the left, a tabbed center area, optional side panels, and an optional bottom terminal.</p></div></section>
+<section class="section"><div class="wrap"><div class="content">
+<h2>Title bar</h2>
+<p>The main window uses a <strong>custom title bar</strong> (no native OS caption or window buttons) so the chrome looks the same on Windows, Linux, and macOS:</p>
+<ul>
+<li><strong>Owl logo</strong> on the left (embedded in the app).</li>
+<li><strong>Application menu</strong> (File, View, Workspace, …) in the same strip.</li>
+<li><strong>Minimize, maximize, and close</strong> on the right, drawn by the LCA theme.</li>
+<li><strong>Drag</strong> the title bar (logo area, menu background, or empty space to the right of the menus) to move the window. <strong>Double-click</strong> that area to maximize or restore.</li>
+<li><strong>Resize</strong> by dragging the outer edge of the main window. On <strong>Windows</strong>, the OS handles this natively. On <strong>macOS (Cocoa)</strong>, the window uses AppKit resizable unified chrome. On <strong>Linux (GTK2)</strong>, the app tracks the pointer to move or resize the frameless window; <strong>GTK3</strong> builds can use the toolkit’s native move/resize when available.</li>
+</ul>
+<p>After installing a build on Linux or macOS, verify that you can move the window from the title strip, use min/max/close, and resize from the window edges on your platform. <strong>Detached panels</strong> still use the normal system title bar on their floating windows.</p>
+<h2>Navigation rail</h2>
+<p>The narrow left <strong>activity bar</strong> switches views:</p>
+<ul>
+<li><strong>Workspace</strong> — workspace overview.</li>
+<li><strong>Projects</strong> — file tree for the workspace.</li>
+<li><strong>Agents</strong> — chat session list (active and archived).</li>
+<li><strong>Bots</strong> — agent presets and prompt setups.</li>
+<li><strong>Tools &amp; Logs</strong> — per-step execution log for the active session: user prompts, model steps (<code>Step N/M · Model:</code>), and each tool’s input/output. Click a row to open <strong>Execution Detail</strong>; during an active run new rows follow into that panel until you select an older row.</li>
+<li><strong>Tasks &amp; Plans</strong> — session task list from the todo tool.</li>
+<li><strong>Tool Errors</strong> — failed tool calls for the active session (click a row for full arguments and output). The subtitle shows the on-disk log path; hover for the full path.</li>
+</ul>
+<p>A horizontal rule on the rail separates <strong>Future Features</strong> (roadmap placeholders with no backend yet). Each opens a panel with a bold <strong>COMING SOON</strong> banner. See the site <a href="../roadmap.html">roadmap</a> for Multi-Agent Workspace, Execution Plans, Workspace Knowledge Base, and The Brain. The same entries appear under <strong>Workspace → Future Features</strong> in the menu.</p>
+<p>Icons are tooltipped; the active rail button stays <strong>down</strong> (speed-button group).</p>
+<h3>Tool error log file</h3>
+<p>Failures are also appended to <code>tool-errors.log</code> under the same user config folder as chat sessions (<code>lazycodingagent</code> beside session storage). The path is resolved at runtime on <strong>Windows, Linux, and macOS</strong>. The file is JSONL (one JSON object per line). Clearing the panel only clears the in-memory list for the current session; delete the file manually if you want to reset the on-disk history.</p>
+<h2>Center area</h2>
+<p>The center header tab strip switches three pages (no <strong>+</strong> on this strip):</p>
+<ul>
+<li><strong>Chat</strong> — a <strong>session tab strip</strong> under the page header lists every non-archived chat (<strong>+</strong> for new session, <strong>✕</strong> to archive). Below that: conversation history rendered as <strong>Markdown</strong> (headings, bold, code, lists — subset, not full GFM), current session label, composer, mode and model combos, Stop and Run.</li>
+<li><strong>Editor</strong> — one editor buffer for the file you opened from Projects (prompted to save if dirty before replacing). Font size scales with display DPI.</li>
+<li><strong>Markdown</strong> — formatted preview when you open a <code>.md</code> file and choose <strong>Preview</strong> (same HTML renderer as chat). Choose <strong>Source</strong> to edit in the Editor tab.</li>
+</ul>
+<p>There are <strong>no</strong> per-file editor tabs. Switch sessions from the Chat session tabs or <strong>Sessions</strong> in the nav rail; open another file from <strong>Projects</strong>.</p>
+<h2>Right and utility panels</h2>
+<ul>
+<li><strong>Guidelines / instructions</strong> — workspace context on the right when enabled.</li>
+<li><strong>Utility panel</strong> — pages for <strong>Scratchpad</strong>, <strong>Execution Detail</strong>, and <strong>Plan</strong>. Toggle via <strong>Window → Panels → Utility Panel</strong>. <strong>Execution Detail</strong> renders formatted HTML: accent section headers, highlighted tool names, shaded JSON blocks, and prose blocks for long prompt text. <strong>Plan</strong> shows the saved plan path, a model picker and <strong>Build</strong> in the header, and rendered plan markdown in the body.</li>
+</ul>
+<h2>Panel visibility and detach</h2>
+<p>Use <strong>✕</strong> on navigation, guidelines, utility, or terminal panel headers, or <strong>Window → Panels</strong>, to show or hide those areas. The <strong>center (chat / editor / markdown)</strong> area has <strong>⧉ detach</strong> on its header but no <strong>✕</strong> — hide the chat panel from <strong>Window → Panels</strong> only. Layout and visibility persist when you restart the app.</p>
+<p>Use <strong>⧉</strong> on navigation, chat, guidelines, utility, and terminal headers to <strong>detach</strong> the panel into a floating window (position and size are saved). Close the float window or click <strong>⧉</strong> again to re-dock.</p>
+<h2>Terminal</h2>
+<p><strong>View → Terminal</strong> opens a bottom dock with a real shell in the <strong>workspace root</strong>. Resize with the splitter above the status bar. On Linux, the embedded terminal needs PTY support; Windows requires Windows 10 1809+ for ConPTY per application README.</p>
+<h2>Theme</h2>
+<p><strong>View → Toggle Light / Dark Theme</strong> switches the in-app palette. The <strong>application menu</strong> lives in the custom title bar on all platforms—not the macOS screen menu bar. Lists, memos, combos, menu dropdowns, and markdown preview areas follow the active theme. Scrollbars on scrollable controls follow the <strong>OS widget theme</strong> where applicable.</p>
+<h2>Tips</h2>
+<ul>
+<li>Use splitters between panels to resize.</li>
+<li>Combo height is set in the Lazarus form (chat footer, plan header, Settings). Theme styling does not override that size; if a combo looks wrong after a resize, try toggling theme once.</li>
+</ul>
+<nav class="doc-pager" aria-label="Documentation pages"><a class="prev" href="getting-started.html"><span class="label">Previous</span>← Getting started</a><a class="next" href="chat-and-modes.html"><span class="label">Next</span>Chat, sessions, and modes →</a></nav>
+</div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap footer-inner"><span>Lazy Coding Agent · Documentation from reviewed application help.</span><nav class="footer-links" aria-label="Footer"><a href="../privacy.html">Privacy</a><a href="../community.html">Community</a><a href="../blog/index.html">Blog</a><a href="index.html">Documentation</a></nav></div></footer>
+</body>
+</html>

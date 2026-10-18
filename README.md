@@ -1,24 +1,24 @@
 # Lazy Coding Agent website
 
-A framework-free static website for Lazy Coding Agent, built with HTML and CSS only. Product copy now summarizes reviewed application README, help and source while distinguishing implementation evidence from release/runtime verification. The application README says multi-window layout is implemented and AI/model execution is in active integration; the currency of that status needs owner confirmation. No live application run, release assets, external GitHub state, or current DigitalOcean deployment was verified. See the evidence ledger and content plan before changing public copy.
+A framework-free static website for Lazy Coding Agent, built with HTML and CSS only. Product copy summarizes reviewed application README, help and source. Installers and packages are advertised on [download.html](download.html) from GitHub Releases (currently **v0.1.11**). The application README still describes AI/model execution as in active integration—public copy retains that maturity caveat. See the evidence ledger and content plan before changing public claims.
 
 ## Structure
 
 - `index.html`, `features.html`, `agents.html`, `download.html`, `roadmap.html`, `community.html`, `privacy.html`, `404.html` — root pages
-- `docs/index.html` — help topic index (help files are in the separate application repository, not copied here)
+- `docs/index.html` — documentation hub; `docs/*.html` topic guides adapted from reviewed application `help/`
 - `docs/PRODUCT_FEATURE_INVENTORY.md` — source-evidence ledger, safe status distinctions and launch gates
 - `docs/WEBSITE_CONTENT_PLAN.md` — canonical publishable facts, per-page guidance and owner confirmations
 - `blog/index.html` — empty blog listing; no history fabricated
-- `assets/site.css`, `assets/owl-mark.png` — shared styling and local brand artwork
+- `assets/site.css`, `assets/owl-mark.png`, `assets/neon-owl-emblem.png`, `assets/workspace-screenshot.webp` — shared styling and brand/UI artwork
 - `robots.txt`, `sitemap.xml` — root-domain crawl metadata
 - `tools/check_site.py` — dependency-free basic metadata, landmark, local-link and CSS check
 - `DEPLOYMENT.md` — conditional DigitalOcean App Platform setup guidance
 
 ## Evidence and public claims
 
-“Implemented in reviewed source/docs” is not equivalent to released, live-tested, user-tested, or available to download. Current website descriptions cover the documented workspace/editor, modes and tool boundaries, sessions and execution detail, model/image examples, terminal caveats, themes and project rules. Multi-agent collaboration, execution plans, workspace knowledge/RAG, The Brain and embedded SQLite/vector retrieval remain planned/future work, not current features.
+“Implemented in reviewed source/docs” is not equivalent to user-tested on every platform or fully mature. Current website descriptions cover the documented workspace/editor, modes and tool boundaries, sessions and execution detail, model/image examples, terminal caveats, themes and project rules. Multi-agent collaboration, execution plans, workspace knowledge/RAG, The Brain and embedded SQLite/vector retrieval remain planned/future work, not current features.
 
-Do not claim overall product readiness until the owner confirms the README integration status and the product has been checked in a runnable build. The site links to the owner-provided GitHub Releases page, but its contents and any published assets or package availability have not been verified. Do not add version numbers, asset names, checksums, installation instructions, legal/license statements, community features or hosting/privacy guarantees until verified. See `docs/PRODUCT_FEATURE_INVENTORY.md` for direct application-relative citations and `docs/WEBSITE_CONTENT_PLAN.md` for launch gates.
+Do not claim overall product readiness until the owner confirms the README integration status. Release assets on GitHub are listed on `download.html` with version-specific URLs and SHA-256 digests; update that page when the application repository tags a new release. Do not add unverified legal/license statements, community features or hosting/privacy guarantees. See `docs/PRODUCT_FEATURE_INVENTORY.md` for citations and `docs/WEBSITE_CONTENT_PLAN.md` for remaining launch gates.
 
 ## Editing
 
@@ -30,7 +30,15 @@ The product help topics were reviewed in the separate application repository's `
 
 ## Downloads
 
-`download.html` remains release-pending and links to the owner-provided GitHub Releases page (`https://github.com/olbrichattila/lazycodingagent/releases`). The link does not verify that the page is available or that it contains a release. Update release claims only after inspecting actual assets and any supplied checksums/signatures, verifying install requirements and testing a distributable package. Build instructions and CI configuration are developer evidence, not consumer release proof.
+[download.html](download.html) links to GitHub Releases (`https://github.com/olbrichattila/lazycodingagent/releases`) with per-platform buttons for the current release (**0.1.11** as of the last site update): Windows installer, Linux `.deb` (amd64 and arm64), AppImage, and macOS disk images (Intel and Apple Silicon).
+
+When the application repository publishes a new tag, update on `download.html`:
+
+1. Version string in the page head, lead, and checksum section title
+2. All six `releases/download/vX.Y.Z/...` asset URLs (filenames include the version)
+3. SHA-256 digests from the GitHub release assets (authoritative on the release page)
+
+The header **Download** button continues to point at the releases index. Build-from-source remains documented separately via the app repository README.
 
 ## Local preview and validation
 
