@@ -1,6 +1,6 @@
 # Lazy Coding Agent website
 
-A framework-free static website for Lazy Coding Agent, built with HTML and CSS only. Product copy summarizes reviewed application README, help and source. Installers and packages are advertised on [download.html](download.html) from GitHub Releases (currently **v0.1.11**). The application README still describes AI/model execution as in active integration—public copy retains that maturity caveat. See the evidence ledger and content plan before changing public claims.
+A framework-free static website for Lazy Coding Agent, built with HTML and CSS only. Product copy summarizes reviewed application README, help and source. Installers and packages are advertised on [download.html](download.html) from GitHub Releases (currently **v0.1.12**). The application README still describes AI/model execution as in active integration—public copy retains that maturity caveat. See the evidence ledger and content plan before changing public claims.
 
 ## Structure
 
@@ -30,7 +30,7 @@ The product help topics were reviewed in the separate application repository's `
 
 ## Downloads
 
-[download.html](download.html) links to GitHub Releases (`https://github.com/olbrichattila/lazycodingagent/releases`) with per-platform buttons for the current release (**0.1.11** as of the last site update): Windows installer, Linux `.deb` (amd64 and arm64), AppImage, and macOS disk images (Intel and Apple Silicon).
+[download.html](download.html) links to GitHub Releases (`https://github.com/olbrichattila/lazycodingagent/releases`) with per-platform buttons for the current release (**0.1.12** as of the last site update): Windows installer, Linux `.deb` (amd64 and arm64), AppImage, and macOS disk images (Intel and Apple Silicon).
 
 When the application repository publishes a new tag, update on `download.html`:
 
