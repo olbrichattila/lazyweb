@@ -1,6 +1,6 @@
 # Lazy Coding Agent website
 
-A framework-free static website for Lazy Coding Agent, built with HTML and CSS only. Product copy summarizes reviewed application README, help and source. Installers and packages are advertised on [download.html](download.html) from GitHub Releases (currently **v0.1.12**). The application README still describes AI/model execution as in active integration—public copy retains that maturity caveat. See the evidence ledger and content plan before changing public claims.
+A framework-free static website for Lazy Coding Agent, built with HTML, CSS, and a small release-refresh script. Product copy summarizes reviewed application README, help and source. Installers and packages are advertised on [download.html](download.html) from the latest GitHub Release, with v0.1.15 as the checked-in fallback. The application README still describes AI/model execution as in active integration—public copy retains that maturity caveat. See the evidence ledger and content plan before changing public claims.
 
 ## Structure
 
@@ -18,7 +18,7 @@ A framework-free static website for Lazy Coding Agent, built with HTML and CSS o
 
 “Implemented in reviewed source/docs” is not equivalent to user-tested on every platform or fully mature. Current website descriptions cover the documented workspace/editor, modes and tool boundaries, sessions and execution detail, model/image examples, terminal caveats, themes and project rules. Multi-agent collaboration, execution plans, workspace knowledge/RAG, The Brain and embedded SQLite/vector retrieval remain planned/future work, not current features.
 
-Do not claim overall product readiness until the owner confirms the README integration status. Release assets on GitHub are listed on `download.html` with version-specific URLs and SHA-256 digests; update that page when the application repository tags a new release. Do not add unverified legal/license statements, community features or hosting/privacy guarantees. See `docs/PRODUCT_FEATURE_INVENTORY.md` for citations and `docs/WEBSITE_CONTENT_PLAN.md` for remaining launch gates.
+Do not claim overall product readiness until the owner confirms the README integration status. Release assets on GitHub are listed on `download.html`; its small script refreshes release links and SHA-256 digests from GitHub when the page loads, with checked-in values as fallback. Do not add unverified legal/license statements, community features or hosting/privacy guarantees. See `docs/PRODUCT_FEATURE_INVENTORY.md` for citations and `docs/WEBSITE_CONTENT_PLAN.md` for remaining launch gates.
 
 ## Editing
 
@@ -30,13 +30,13 @@ The product help topics were reviewed in the separate application repository's `
 
 ## Downloads
 
-[download.html](download.html) links to GitHub Releases (`https://github.com/olbrichattila/lazycodingagent/releases`) with per-platform buttons for the current release (**0.1.12** as of the last site update): Windows installer, Linux `.deb` (amd64 and arm64), AppImage, and macOS disk images (Intel and Apple Silicon).
+[download.html](download.html) links to the latest GitHub Release (`https://github.com/olbrichattila/lazycodingagent/releases/latest`) with per-platform buttons for Windows, Linux `.deb` (amd64 and arm64), AppImage, and macOS disk images (Intel and Apple Silicon). `assets/latest-release.js` queries GitHub's latest-release API to refresh the displayed version, asset links, release page links, and SHA-256 digests. The page retains checked-in v0.1.15 links and digests as a fallback if the API is unavailable; verify/update those fallback values when publishing a new release.
 
-When the application repository publishes a new tag, update on `download.html`:
+When a new release is published, the page refresh script discovers the latest release and its assets automatically. To update the checked-in fallback values, change the version and release links in `download.html`, the asset filename suffixes in `assets/latest-release.js` if they change, and the SHA-256 digests from the release assets.
 
-1. Version string in the page head, lead, and checksum section title
-2. All six `releases/download/vX.Y.Z/...` asset URLs (filenames include the version)
-3. SHA-256 digests from the GitHub release assets (authoritative on the release page)
+
+
+
 
 The header **Download** button continues to point at the releases index. Build-from-source remains documented separately via the app repository README.
 
