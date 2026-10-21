@@ -6,7 +6,7 @@ The website team reviewed the designated application repository, including its R
 
 Use **Implemented in reviewed source/docs** only to mean the source/help describe and wire the behavior. It does not mean released, tested in a live run, or available to download. The application README currently says: “Multi-window workspace layout implemented. AI/model execution is in active integration.” That status has not been owner-confirmed as current. Do not call the product release-ready, fully integrated or generally available until the owner confirms maturity and an actual build/runtime/release has been checked.
 
-No live application run, external GitHub community verification, or current DigitalOcean configuration/deployment check was performed. GitHub Releases **v0.1.12** assets and SHA-256 digests were inspected for `download.html`. This website uses conservative product descriptions and retains the remaining gates below.
+No live application run, external GitHub community verification, current release-asset/digest verification, or current DigitalOcean configuration/deployment check was performed. `download.html` contains v0.1.15 checked-in fallback values. The optional browser script requests GitHub's latest-release API and updates known links/digests when metadata is complete; neither live API behavior nor the current latest release has been independently checked. This website uses conservative product descriptions and retains the remaining gates below.
 
 ## Publishable facts and qualified language
 
@@ -19,7 +19,7 @@ No live application run, external GitHub community verification, or current Digi
 - **Customization:** Dark/light theme, project rules under `.rules/*.md`, debugging and Learn options are documented. Do not broaden this into plugin/extensibility claims. (App `README.md` “Modern Dark-First Design” and “Debugging mode and project rules”; `help/chat-and-modes.md`.)
 - **Build targets:** Repository build configuration includes Linux, Windows and macOS jobs. Label as configured targets; CI configuration alone is not proof of current passing CI or runtime parity. (App `.github/workflows/build.yml`; `README.md` “Building & Running”.)
 - **Planned:** Multi-Agent Workspace, Execution Plans, Workspace Knowledge Base/RAG and The Brain are explicitly roadmap placeholders with no backend. Embedded SQLite/vector retrieval is a future plan, not implemented. No delivery dates or commitments. (App `help/workspace-layout.md` “Future Features”; `future-plan/Lazarus_AI_Agent_Future_Plan.md`; `future-plan/Lazarus_Embedded_Storage_and_Vector_Plan.md`.)
-- **Downloads:** Published on GitHub Releases (currently **v0.1.12**): Windows 64-bit installer, Linux amd64 `.deb`, x86_64 AppImage, arm64 `.deb` (including Raspberry Pi), macOS Intel and Apple Silicon `.dmg`. List SHA-256 digests from the release. Link build-from-source to the app README separately. Retain README active-integration maturity caveat.
+- **Downloads:** `download.html` has checked-in v0.1.15 fallback links and SHA-256 digests for Windows 64-bit installer, Linux amd64 `.deb`, x86_64 AppImage, arm64 `.deb`, and macOS Intel and Apple Silicon `.dmg`. A small browser script optionally fetches the latest-release API, updating known assets and valid digest values when successful. The v0.1.15 fallback, latest published release, assets, and digests were not externally re-verified in this update. Link build-from-source to the app README separately. Retain README active-integration maturity caveat.
 - **Unverified:** Per-user install/runtime testing on every platform, current GitHub license/community features, owner-approved current maturity wording, production hosting/privacy behavior and deployment settings. Do not invent answers.
 
 ## Page-by-page content rules
@@ -29,16 +29,16 @@ No live application run, external GitHub community verification, or current Digi
 | `/` | Restrained desktop-app description; highlights for workspace/editor, mode-gated tools and execution detail. | Nearby maturity and release caveat. “Plan. Build. Review. Learn.” is positioning only, not proof of multi-agent workflow. Citations: inventory; app README; app help and units above. |
 | `/features.html` | Workspace/editor/panels, Ask/Plan/Agent boundaries, sessions and recorded execution detail, documented model/image scope, terminal caveats, documented themes/rules. | Each section links to the local website documentation index; maintainer citations remain in inventory. Explicitly label RAG/Brain/multi-agent/plans as planned. |
 | `/agents.html` | Actual single-agent ReAct/tool loop and per-session background engine; explain application-recorded context/tool I/O. | Cite app `uAgentEngine.pas`, `uAgentRunThread.pas`, `uChatSessionHub.pas`, `uAgentExecutionLog.pas`, `help/how-the-agent-works.md`. No operational multi-agent diagram. |
-| `/download.html` | Platform cards with direct v0.1.12 download links, primary “All releases on GitHub” CTA, install notes, SHA-256 list, build-from-source pointer, maturity notice. | Match asset names to GitHub Releases; bump version/URLs on new tags. Do not claim full product maturity while README says active integration. |
+| `/download.html` | Platform cards with checked-in v0.1.15 fallback direct links, primary “All releases on GitHub” CTA, install notes, fallback SHA-256 list, build-from-source pointer, maturity notice. Browser refresh may update known release data; missing assets must not appear active without explanation. | Verify every expected asset and digest directly before updating fallback; test live/deployed API behavior before claiming it. Do not claim full product maturity while README says active integration. |
 | `/roadmap.html` | Multi-agent, execution-plan tracker, workspace knowledge/RAG, Brain, and SQLite/vector retrieval as planned/future planning. | Cite app `help/workspace-layout.md` and future-plan files. No dates, commitments, or current-feature ambiguity. |
 | `/docs/` | Hub at `docs/index.html` with category cards and anchor sections (`#workspace`, `#modes`, `#chat`, `#rules`, `#agent-loop`) for inbound links from features/agents pages. Six static topic guides (`getting-started`, `workspace-layout`, `chat-and-modes`, `project-rules`, `how-the-agent-works`, `tools-reference`) derived from reviewed application `help/` with maturity qualifiers (active integration, application-level sandbox, execution detail limits). Maintainer evidence remains in `PRODUCT_FEATURE_INVENTORY.md`. |
 | `/community.html` | Owner-provided repository URL, clearly noting external availability is unchecked. | No license, open-source, Issues/PRs/Discussions or contribution assertions without direct verification. |
-| `/privacy.html` | Observed authored-source behavior and limits. | No guarantees about host, logs, cookies, network intermediaries or contact. Recheck after scripts, embeds, analytics, or hosting changes. |
+| `/privacy.html` | Observed authored-source behavior and limits, including the optional GitHub latest-release API request on the download page and fallback behavior. | No guarantees about host, GitHub data handling, logs, cookies, network intermediaries or contact. Recheck after scripts, embeds, analytics, or hosting changes. |
 | `/404.html`, `/blog/` | Truthful recovery links and empty blog. | Do not invent posts, dates, assets or deployment 404 behavior. |
 
 ## Editorial and technical requirements
 
-- Keep static, framework-free HTML/CSS, no runtime/build dependency, native `<details>` mobile navigation, skip links, landmarks, semantic headings, visible focus and reduced-motion handling.
+- Keep static, framework-free HTML/CSS with no build step or package dependency. The download page alone uses a small optional script; checked-in links work without JavaScript. Keep native `<details>` mobile navigation, skip links, landmarks, semantic headings, visible focus and reduced-motion handling.
 - Preserve document-relative internal URLs and root-domain canonical URLs. Update sitemap only for URL changes; do not include the 404 page as a sitemap destination. Leave the blog empty until approved posts exist.
 - No fabricated screenshots. Use local owl artwork only where appropriate and publication rights are confirmed.
 - Keep direct citations for all material claims in `PRODUCT_FEATURE_INVENTORY.md`; source documents support descriptions but do not replace release verification.
@@ -47,10 +47,10 @@ No live application run, external GitHub community verification, or current Digi
 ## Owner confirmations and launch blockers
 
 1. Is README's “AI/model execution is in active integration” status current? What precise maturity wording is approved?
-2. ~~Which canonical release page/assets/prerequisites are intended~~ — **Addressed:** GitHub Releases v0.1.12 on `download.html`; re-verify on each new release tag.
+2. Verify the actual latest GitHub release, intended assets and their names/URLs, and digest availability/value. Confirm API and deployed-page behavior.
 3. What license, contribution instructions and GitHub community channels are actually present/enabled?
 4. May concise descriptions or derived documentation/artwork be republished on this site? May original help be linked or summarized?
 5. Who is the privacy contact, and what do production host/CDN/logging settings do?
 6. Which DigitalOcean repository/branch, source/output directory, canonical host, HTTPS/redirect and 404 settings are configured?
 
-No application source was changed for this site work. Do not treat the website copy or repository build matrix as proof of product release, current successful build, external availability, or deployment state.
+No application source was changed for this site work. Do not treat the website copy or repository build matrix as proof of product release, current successful build, external availability, or deployment state. Keep gates open until dated evidence with scope is actually recorded.
