@@ -94,6 +94,8 @@
           safeRun(() => {
             if (label.tagName === "META") {
               label.content = label.content.replace(/(Lazy Coding Agent )\d+\.\d+\.\d+/, `$1${details.version}`);
+            } else if (label.tagName === "TITLE") {
+              label.textContent = `Download — Lazy Coding Agent ${details.version}`;
             } else label.textContent = details.version;
           });
         }
