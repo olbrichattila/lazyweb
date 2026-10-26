@@ -2,6 +2,7 @@
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
+import xml.etree.ElementTree as ET
 import re
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -17,6 +18,26 @@ PAGES = [
     "docs/tools-reference.html",
     "blog/index.html",
 ]
+CANONICAL_ORIGIN = "https://lazycodingagent.com"
+EXPECTED_CANONICALS = {
+    "index.html": "https://lazycodingagent.com/",
+    "features.html": "https://lazycodingagent.com/features.html",
+    "agents.html": "https://lazycodingagent.com/agents.html",
+    "download.html": "https://lazycodingagent.com/download.html",
+    "roadmap.html": "https://lazycodingagent.com/roadmap.html",
+    "community.html": "https://lazycodingagent.com/community.html",
+    "privacy.html": "https://lazycodingagent.com/privacy.html",
+    "404.html": "https://lazycodingagent.com/404.html",
+    "docs/index.html": "https://lazycodingagent.com/docs/",
+    "docs/getting-started.html": "https://lazycodingagent.com/docs/getting-started.html",
+    "docs/workspace-layout.html": "https://lazycodingagent.com/docs/workspace-layout.html",
+    "docs/chat-and-modes.html": "https://lazycodingagent.com/docs/chat-and-modes.html",
+    "docs/project-rules.html": "https://lazycodingagent.com/docs/project-rules.html",
+    "docs/how-the-agent-works.html": "https://lazycodingagent.com/docs/how-the-agent-works.html",
+    "docs/tools-reference.html": "https://lazycodingagent.com/docs/tools-reference.html",
+    "blog/index.html": "https://lazycodingagent.com/blog/",
+}
+INDEXABLE_PAGES = [page for page in PAGES if page != "404.html"]
 ARTIFACTS = {
     "windows": "win64-Setup.exe",
     "mac-intel": "x86_64.dmg",
@@ -35,7 +56,8 @@ class PageParser(HTMLParser):
         self.title = ""
         self.in_title = False
         self.meta = {}
-        self.canonical = None
+        self.og_urls = []
+        self.canonicals = []
         self.h1_count = 0
         self.skip_link = False
         self.main_id = False
@@ -49,8 +71,11 @@ class PageParser(HTMLParser):
             self.h1_count += 1
         if tag == "meta" and attrs.get("name"):
             self.meta[attrs["name"]] = attrs.get("content", "")
-        if tag == "link" and attrs.get("rel") == "canonical":
-            self.canonical = attrs.get("href")
+        if tag == "meta" and attrs.get("property", "").casefold() == "og:url":
+            self.og_urls.append(attrs.get("content"))
+        if tag == "link" and "canonical" in attrs.get("rel", "").casefold().split():
+            href = attrs.get("href")
+            self.canonicals.append(href)
         if tag == "main" and attrs.get("id") == "main":
             self.main_id = True
         if tag == "img":
@@ -181,6 +206,13 @@ def check_release_fallback(errors):
 
 
 errors = []
+if set(PAGES) != set(EXPECTED_CANONICALS):
+    missing = sorted(set(PAGES) - set(EXPECTED_CANONICALS))
+    extra = sorted(set(EXPECTED_CANONICALS) - set(PAGES))
+    errors.append(f"Canonical expectation map does not match PAGES (missing={missing}, extra={extra})")
+if "404.html" in INDEXABLE_PAGES:
+    errors.append("404.html must remain excluded from sitemap indexable pages")
+
 titles = set()
 canonicals = set()
 for page in PAGES:
@@ -197,11 +229,30 @@ for page in PAGES:
     titles.add(parser.title)
     if not parser.meta.get("description"):
         errors.append(f"{page}: missing meta description")
-    if not parser.canonical or not parser.canonical.startswith("https://lazycodingagent.com/"):
-        errors.append(f"{page}: missing canonical URL")
-    elif parser.canonical in canonicals:
-        errors.append(f"{page}: duplicate canonical URL")
-    canonicals.add(parser.canonical)
+    expected_canonical = EXPECTED_CANONICALS.get(page)
+    if len(parser.canonicals) != 1:
+        errors.append(f"{page}: expected exactly one canonical link, found {len(parser.canonicals)}")
+    if len(parser.canonicals) == 1:
+        canonical = parser.canonicals[0]
+        if not canonical:
+            errors.append(f"{page}: canonical link is missing href")
+        else:
+            parsed_canonical = urlsplit(canonical)
+            if (parsed_canonical.scheme != "https"
+                    or parsed_canonical.netloc != urlsplit(CANONICAL_ORIGIN).netloc
+                    or parsed_canonical.query
+                    or parsed_canonical.fragment):
+                errors.append(f"{page}: canonical must be an absolute HTTPS URL on lazycodingagent.com without query or fragment")
+            if expected_canonical is None or canonical != expected_canonical:
+                errors.append(f"{page}: canonical URL {canonical!r} does not match expected {expected_canonical!r}")
+            if canonical in canonicals:
+                errors.append(f"{page}: duplicate canonical URL")
+            canonicals.add(canonical)
+
+    if len(parser.og_urls) != 1:
+        errors.append(f"{page}: expected exactly one og:url value, found {len(parser.og_urls)}")
+    elif parser.og_urls[0] != expected_canonical:
+        errors.append(f"{page}: og:url {parser.og_urls[0]!r} does not match expected canonical {expected_canonical!r}")
     if not parser.main_id:
         errors.append(f"{page}: missing main landmark with id=main")
     if not parser.skip_link:
@@ -225,6 +276,34 @@ for page in PAGES:
             errors.append(f"{page}: broken local URL {url}")
 
 check_release_fallback(errors)
+sitemap_path = ROOT / "sitemap.xml"
+try:
+    sitemap_root = ET.parse(sitemap_path).getroot()
+except (ET.ParseError, OSError) as exc:
+    errors.append(f"sitemap.xml: could not parse sitemap ({exc})")
+else:
+    namespace = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+    sitemap_locs = [loc.text.strip() if loc.text else "" for loc in sitemap_root.findall(f".//{namespace}loc")]
+    if not sitemap_locs:
+        errors.append("sitemap.xml: no <loc> entries found")
+    seen_locs = set()
+    expected_indexable_locs = {EXPECTED_CANONICALS[page] for page in INDEXABLE_PAGES if page in EXPECTED_CANONICALS}
+    for location in sitemap_locs:
+        parsed_location = urlsplit(location)
+        if (parsed_location.scheme != "https"
+                or parsed_location.netloc != urlsplit(CANONICAL_ORIGIN).netloc
+                or parsed_location.query
+                or parsed_location.fragment):
+            errors.append(f"sitemap.xml: <loc> must be an absolute HTTPS URL on lazycodingagent.com without query or fragment: {location!r}")
+        if location in seen_locs:
+            errors.append(f"sitemap.xml: duplicate <loc> {location!r}")
+        seen_locs.add(location)
+        if location not in expected_indexable_locs:
+            errors.append(f"sitemap.xml: <loc> {location!r} is not an intended indexable page canonical")
+
+    for missing_location in sorted(expected_indexable_locs - seen_locs):
+        errors.append(f"sitemap.xml: missing indexable page canonical {missing_location!r}")
+
 css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
 if "prefers-reduced-motion" not in css:
     errors.append("Stylesheet lacks reduced-motion handling")
