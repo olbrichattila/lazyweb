@@ -4,7 +4,7 @@ const assert = require("node:assert/strict");
 const { test } = require("node:test");
 const { refreshRelease, artifacts, requestTimeoutMs } = require("../assets/latest-release.js");
 
-const fallbackVersion = "0.1.23";
+const fallbackVersion = "0.1.38";
 const digest = "a".repeat(64);
 const release = (overrides = {}) => ({
   tag_name: "v1.2.3",
@@ -71,6 +71,10 @@ test("successful metadata refreshes version, release page, explicit asset links 
   assert.equal(document.elements["[data-release-page]"][0].href, release().html_url);
   assert.match(document.elements['[data-release-asset="windows"]'][0].href, /v1\.2\.3/);
   assert.equal(document.elements['[data-checksum="windows"]'][0].querySelectorAll("code")[1].textContent, digest);
+  for (const artifact of artifacts) {
+    assert.ok(document.elements[`[data-release-asset="${artifact.id}"]`][0].href.endsWith(`-${artifact.suffix}`));
+    assert.equal(document.elements[`[data-checksum="${artifact.id}"]`][0].querySelectorAll("code")[0].textContent, `LazyCodingAgent-1.2.3-${artifact.suffix}`);
+  }
   assert.match(document.elements["[data-release-status]"][0].textContent, /latest published release, 1\.2\.3/);
 });
 
@@ -78,7 +82,7 @@ test("fetch failure leaves all checked-in fallback values intact", async () => {
   const document = makeDocument();
   await refreshRelease(document, async () => { throw new Error("offline"); }, undefined, 100);
   assert.equal(document.elements["[data-release-version]"][0].textContent, fallbackVersion);
-  assert.match(document.elements['[data-release-asset="windows"]'][0].href, /v0\.1\.23/);
+  assert.match(document.elements['[data-release-asset="windows"]'][0].href, /v0\.1\.38/);
   assert.equal(document.elements['[data-checksum="windows"]'][0].querySelectorAll("code")[1].textContent, "b".repeat(64));
 });
 
