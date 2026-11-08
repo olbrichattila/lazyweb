@@ -4,7 +4,7 @@ const assert = require("node:assert/strict");
 const { test } = require("node:test");
 const { refreshRelease, artifacts, requestTimeoutMs } = require("../assets/latest-release.js");
 
-const fallbackVersion = "0.1.42";
+const fallbackVersion = "0.1.43";
 const digest = "a".repeat(64);
 const release = (overrides = {}) => ({
   tag_name: "v1.2.3",
