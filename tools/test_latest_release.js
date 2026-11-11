@@ -4,14 +4,14 @@ const assert = require("node:assert/strict");
 const { test } = require("node:test");
 const { refreshRelease, artifacts, requestTimeoutMs } = require("../assets/latest-release.js");
 
-const fallbackVersion = "0.1.43";
+const fallbackVersion = "0.1.0";
 const digest = "a".repeat(64);
 const release = (overrides = {}) => ({
   tag_name: "v1.2.3",
-  html_url: "https://github.com/olbrichattila/lazycodingagent/releases/tag/v1.2.3",
+  html_url: "https://github.com/attilaolbrich/lazycodingagent/releases/tag/v1.2.3",
   assets: artifacts.map((artifact) => ({
     name: `LazyCodingAgent-1.2.3-${artifact.suffix}`,
-    browser_download_url: `https://github.com/olbrichattila/lazycodingagent/releases/download/v1.2.3/LazyCodingAgent-1.2.3-${artifact.suffix}`,
+    browser_download_url: `https://github.com/attilaolbrich/lazycodingagent/releases/download/v1.2.3/LazyCodingAgent-1.2.3-${artifact.suffix}`,
     digest: `sha256:${digest}`,
   })),
   ...overrides,
@@ -28,14 +28,14 @@ function makeDocument({ malformedChecksum = false } = {}) {
       element({ tagName: "TITLE", textContent: `Download — Lazy Coding Agent ${fallbackVersion}` }),
       element({ tagName: "META", content: `Download Lazy Coding Agent ${fallbackVersion} for all platforms.` }),
     ],
-    "[data-release-page]": [element({ href: `https://github.com/olbrichattila/lazycodingagent/releases/tag/v${fallbackVersion}` })],
+    "[data-release-page]": [element({ href: `https://github.com/attilaolbrich/lazycodingagent/releases/tag/v${fallbackVersion}` })],
     "[data-checksum-version]": [element({ textContent: `SHA-256 checksums (${fallbackVersion})` })],
     "[data-release-status]": [element({ textContent: "fallback status" })],
     "[data-checksum-status]": [element({ textContent: "fallback digest notice" })],
   };
   for (const artifact of artifacts) {
     elements[`[data-release-asset="${artifact.id}"]`] = [element({
-      href: `https://github.com/olbrichattila/lazycodingagent/releases/download/v${fallbackVersion}/LazyCodingAgent-${fallbackVersion}-${artifact.suffix}`,
+      href: `https://github.com/attilaolbrich/lazycodingagent/releases/download/v${fallbackVersion}/LazyCodingAgent-${fallbackVersion}-${artifact.suffix}`,
     })];
     elements[`[data-asset-status="${artifact.id}"]`] = [element({
       textContent: "fallback availability",

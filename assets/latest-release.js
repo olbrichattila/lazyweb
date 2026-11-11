@@ -2,7 +2,7 @@
 (function (root) {
   "use strict";
 
-  const repository = "olbrichattila/lazycodingagent";
+  const repository = "attilaolbrich/lazycodingagent";
   const releaseApi = `https://api.github.com/repos/${repository}/releases/latest`;
   const requestTimeoutMs = 8000;
   const artifacts = [
