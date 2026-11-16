@@ -8,7 +8,7 @@ import re
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index.html", "features.html", "agents.html", "download.html",
-    "roadmap.html", "community.html", "privacy.html", "404.html",
+    "roadmap.html", "lazybrain.html", "community.html", "privacy.html", "404.html",
     "docs/index.html",
     "docs/getting-started.html",
     "docs/workspace-layout.html",
@@ -25,6 +25,7 @@ EXPECTED_CANONICALS = {
     "agents.html": "https://lazycodingagent.com/agents.html",
     "download.html": "https://lazycodingagent.com/download.html",
     "roadmap.html": "https://lazycodingagent.com/roadmap.html",
+    "lazybrain.html": "https://lazycodingagent.com/lazybrain.html",
     "community.html": "https://lazycodingagent.com/community.html",
     "privacy.html": "https://lazycodingagent.com/privacy.html",
     "404.html": "https://lazycodingagent.com/404.html",
