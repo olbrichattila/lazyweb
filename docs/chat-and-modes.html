@@ -30,9 +30,9 @@
 <ul>
 <li>Every session has its own conversation and <strong>agent engine</strong>.</li>
 <li>Switching sessions or workspaces does <strong>not</strong> stop a run in another session; it continues in the background.</li>
-<li>Switch sessions from the <strong>tab strip inside the Chat page</strong> or from <strong>Sessions</strong> in the nav rail; the active session name also appears in the <strong>Session:</strong> label on the Chat page.</li>
+<li>Use <strong>Sessions</strong> in the navigation rail to switch between sessions. Other sessions’ active runs continue in the background.</li>
 </ul>
-<p>Create sessions from <strong>Sessions</strong> (<strong>+ New Chat Session</strong>) or click <strong>+</strong> on the <strong>session tab strip</strong> at the top of the Chat page. <strong>✕</strong> on a session tab archives that chat (restore from <strong>Sessions</strong>). Archive, restore, or permanently delete from the <strong>Sessions</strong> nav view.</p>
+<p>Create a session from <strong>Sessions</strong> using <strong>+ New Chat Session</strong>. Manage sessions in that view: switch to a session, archive it, restore an archived session, or permanently delete it. Each session has its own conversation and agent engine, so switching sessions does not stop another session’s background run.</p>
 <h2 id="modes">Composer modes</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Mode</th><th scope="col">Purpose</th></tr></thead>
@@ -77,6 +77,8 @@
 <h2>Context summarization</h2>
 <p>Enable <strong>Auto-summarize when nearing context limit</strong> (on by default) to compress <strong>older</strong> chat turns into a summary message while keeping recent turns verbatim. Optional fields: <strong>Context window (tokens)</strong> and <strong>Summarize threshold</strong> (default 0.85 of usable budget).</p>
 <p>When summarization runs, chat shows a brief assistant note: <em>Context summarized to continue the conversation.</em></p>
+<h2>In-app user guide</h2>
+<p>Open <strong>Help → User Guide…</strong> or press <strong>F1</strong> to open the in-app guide. This is described in the reviewed v0.1.2 README/help; it is not an independent runtime test of every packaged build.</p>
 <h2>Cancel and exit</h2>
 <p>Use <strong>Stop</strong> / cancel in the chat UI to abort an active run. Quitting the app with runs in progress should prompt to stop them cleanly.</p>
 <nav class="doc-pager" aria-label="Documentation pages"><a class="prev" href="workspace-layout.html"><span class="label">Previous</span>← Workspace layout and panels</a><a class="next" href="project-rules.html"><span class="label">Next</span>Project rules →</a></nav>

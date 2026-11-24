@@ -28,7 +28,7 @@
 <div class="notice"><strong>Maturity:</strong> Installers are on <a href="../download.html">GitHub Releases</a>. The application README still describes AI/model execution as in active integration. Write and shell tools run on your computer under application path policy—not an operating-system sandbox. Execution detail shows application-recorded context and tool I/O, not hidden model reasoning.</div>
 <div class="grid" style="margin-top:1.5rem">
 <article class="card"><span class="badge">Start here</span><h2>Getting started</h2><p>Open a workspace, configure your LLM provider, and send your first chat in Ask, Plan, or Agent mode.</p><p><a href="getting-started.html">Getting started guide →</a></p></article>
-<article class="card"><span class="badge">Workspace</span><h2>Workspace layout and panels</h2><p>Navigation rail, chat and editor pages, utility panels, terminal, themes, and detach.</p><p><a href="workspace-layout.html">Workspace layout →</a></p></article>
+<article class="card"><span class="badge">Workspace</span><h2>Workspace layout and panels</h2><p>Navigation rail with Sessions management, Chat/Editor/Markdown pages, utility panels, terminal, themes, and detach.</p><p><a href="workspace-layout.html">Workspace layout →</a></p></article>
 <article class="card"><span class="badge">Chat</span><h2>Chat, sessions, and modes</h2><p>Parallel sessions, Ask/Plan/Agent boundaries, images, debugging, Learn mode, and limits.</p><p><a href="chat-and-modes.html">Chat and modes →</a></p></article>
 <article class="card"><span class="badge">Agent</span><h2>How the agent works</h2><p>Per-session engine, ReAct loop, system prompt contents, and what the UI records.</p><p><a href="how-the-agent-works.html">Agent overview →</a></p></article>
 <article class="card"><span class="badge">Reference</span><h2>Agent tools reference</h2><p>Tool names, mode availability, path rules, and patch format notes.</p><p><a href="tools-reference.html">Tools reference →</a></p></article>
@@ -39,7 +39,7 @@
 <p class="section-intro">The <a href="../features.html">features</a> and <a href="../agents.html">agents</a> pages link here for deeper reading.</p>
 <section class="doc-anchor-section" id="workspace">
 <h2>Workspace and editor</h2>
-<p>The main window is IDE-style: a left navigation rail (workspace, projects, agents, tools and logs), a center area with Chat, Editor, and Markdown preview pages, optional guidelines and utility panels, and an integrated PTY terminal at the workspace root. Panels can be hidden, resized with splitters, and detached into floating windows; layout is saved per workspace.</p>
+<p>The main window is IDE-style: a left navigation rail for workspace and project navigation, session management, and tools/logs; a center area with Chat, Editor, and Markdown preview pages; optional guidelines and utility panels; and an integrated PTY terminal at the workspace root. Panels can be hidden, resized with splitters, and detached into floating windows; layout is saved per workspace.</p>
 <p>Roadmap entries in the nav (multi-agent workspace, execution plans, knowledge base, The Brain) are <strong>planned</strong> placeholders with no backend—see the <a href="../roadmap.html">roadmap</a>.</p>
 <p><a href="workspace-layout.html">Read the full workspace guide →</a></p>
 </section>
@@ -51,7 +51,8 @@
 </section>
 <section class="doc-anchor-section" id="chat">
 <h2>Chat, sessions, and models</h2>
-<p>Each workspace supports multiple parallel chat sessions with separate conversation history and agent engines; switching tabs does not stop a run in another session. Configure provider, API key, and models in Settings; attach up to four images per message when using a vision-capable model. Debugging mode controls full tool JSON in chat; Tools &amp; Logs and Execution Detail hold the full trace.</p>
+<p>Each workspace supports multiple parallel chat sessions with separate conversation history and agent engines; switch and manage them in the Sessions navigation view, and runs in other sessions continue in the background. Configure provider, API key, and models in Settings; attach up to four images per message when using a vision-capable model. Debugging mode controls full tool JSON in chat; Tools &amp; Logs and Execution Detail hold the full trace.</p>
+<p>The in-app user guide is described in the reviewed v0.1.2 README/help and opens from <strong>Help → User Guide…</strong> or <strong>F1</strong>; this is not an independent runtime test of each build.</p>
 <p><a href="chat-and-modes.html#chat">Read the full chat guide →</a></p>
 </section>
 <section class="doc-anchor-section" id="agent-loop">

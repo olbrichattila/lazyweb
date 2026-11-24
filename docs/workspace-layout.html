@@ -40,8 +40,7 @@
 <ul>
 <li><strong>Workspace</strong> — workspace overview.</li>
 <li><strong>Projects</strong> — file tree for the workspace.</li>
-<li><strong>Agents</strong> — chat session list (active and archived).</li>
-<li><strong>Bots</strong> — agent presets and prompt setups.</li>
+<li><strong>Sessions</strong> — create, switch, archive, restore, and delete chat sessions (active and archived).</li>
 <li><strong>Tools &amp; Logs</strong> — per-step execution log for the active session: user prompts, model steps (<code>Step N/M · Model:</code>), and each tool’s input/output. Click a row to open <strong>Execution Detail</strong>; during an active run new rows follow into that panel until you select an older row.</li>
 <li><strong>Tasks &amp; Plans</strong> — session task list from the todo tool.</li>
 <li><strong>Tool Errors</strong> — failed tool calls for the active session (click a row for full arguments and output). The subtitle shows the on-disk log path; hover for the full path.</li>
@@ -53,11 +52,11 @@
 <h2>Center area</h2>
 <p>The center header tab strip switches three pages (no <strong>+</strong> on this strip):</p>
 <ul>
-<li><strong>Chat</strong> — a <strong>session tab strip</strong> under the page header lists every non-archived chat (<strong>+</strong> for new session, <strong>✕</strong> to archive). Below that: conversation history rendered as <strong>Markdown</strong> (headings, bold, code, lists — subset, not full GFM), current session label, composer, mode and model combos, Stop and Run.</li>
+<li><strong>Chat</strong> — one chat surface showing the selected session’s conversation history rendered as <strong>Markdown</strong> (headings, bold, code, lists — subset, not full GFM), composer, mode and model combos, Stop and Run. Sessions are selected and managed in the <strong>Sessions</strong> navigation view.</li>
 <li><strong>Editor</strong> — one editor buffer for the file you opened from Projects (prompted to save if dirty before replacing). Font size scales with display DPI.</li>
 <li><strong>Markdown</strong> — formatted preview when you open a <code>.md</code> file and choose <strong>Preview</strong> (same HTML renderer as chat). Choose <strong>Source</strong> to edit in the Editor tab.</li>
 </ul>
-<p>There are <strong>no</strong> per-file editor tabs. Switch sessions from the Chat session tabs or <strong>Sessions</strong> in the nav rail; open another file from <strong>Projects</strong>.</p>
+<p>There are <strong>no</strong> per-file editor tabs or chat-session tab strip. Switch sessions from the <strong>Sessions</strong> view; open another file from <strong>Projects</strong>. A run in another session continues in the background.</p>
 <h2>Right and utility panels</h2>
 <ul>
 <li><strong>Guidelines / instructions</strong> — workspace context on the right when enabled.</li>
@@ -68,6 +67,8 @@
 <p>Use <strong>⧉</strong> on navigation, chat, guidelines, utility, and terminal headers to <strong>detach</strong> the panel into a floating window (position and size are saved). Close the float window or click <strong>⧉</strong> again to re-dock.</p>
 <h2>Terminal</h2>
 <p><strong>View → Terminal</strong> opens a bottom dock with a real shell in the <strong>workspace root</strong>. Resize with the splitter above the status bar. On Linux, the embedded terminal needs PTY support; Windows requires Windows 10 1809+ for ConPTY per application README.</p>
+<h2>In-app user guide</h2>
+<p>Open <strong>Help → User Guide…</strong> or press <strong>F1</strong> for the in-app guide, as described in the reviewed v0.1.2 README/help. This description is not an independent runtime test of packaged builds.</p>
 <h2>Theme</h2>
 <p><strong>View → Toggle Light / Dark Theme</strong> switches the in-app palette. The <strong>application menu</strong> lives in the custom title bar on all platforms—not the macOS screen menu bar. Lists, memos, combos, menu dropdowns, and markdown preview areas follow the active theme. Scrollbars on scrollable controls follow the <strong>OS widget theme</strong> where applicable.</p>
 <h2>Tips</h2>
